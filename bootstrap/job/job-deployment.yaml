@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: job
+  labels:
+    app: job
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: job
+  template:
+    metadata:
+      labels:
+        app: job
+    spec:
+      containers:
+      - name: job
+        image: raihanrsd02/jobk8s:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8082
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8s
+        resources:
+          requests:
+            memory: "2Gi"         # Increased memory request
+            cpu: "1"              # Increased CPU request
+          limits:
+            memory: "3Gi"         # Increased memory limit
+            cpu: "2"              # Increased CPU limit
+      restartPolicy: Always

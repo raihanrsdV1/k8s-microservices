@@ -1,0 +1,36 @@
+replicaCount: 1
+
+image:
+  registry: quay.io
+  repository: prometheuscommunity/postgres-exporter
+  tag: ""  # You can leave this blank to use the default appVersion
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 9187
+  name: http
+
+serviceMonitor:
+  enabled: true
+  interval: 30s  # Optional, adjust scraping interval as needed
+  labels:
+    release: prometheus  # Adjust if necessary based on Prometheus' ServiceMonitor label selector
+
+config:
+  datasource:
+    host: postgres  # Your PostgreSQL service name
+    user: postgres  # Your PostgreSQL username
+    password: postgres  # Your PostgreSQL password
+    port: "5432"  # The port PostgreSQL is running on
+    database: postgres  # Your PostgreSQL database name
+    sslmode: disable  # SSL is disabled based on your configuration
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "100m"
+  limits:
+    memory: "128Mi"
+    cpu: "250m"

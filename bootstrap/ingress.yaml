@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: microservices-ingress
+  annotations:
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /companies
+        pathType: Prefix
+        backend:
+          service:
+            name: company
+            port:
+              number: 8081
+      - path: /jobs
+        pathType: Prefix
+        backend:
+          service:
+            name: job
+            port:
+              number: 8082
+      - path: /reviews
+        pathType: Prefix
+        backend:
+          service:
+            name: review
+            port:
+              number: 8083
